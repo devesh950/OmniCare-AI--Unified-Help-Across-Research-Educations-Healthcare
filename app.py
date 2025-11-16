@@ -1062,11 +1062,26 @@ with tab2:
         
         # Sources
         st.subheader("🔗 Sources")
-        if research.get('search_results'):
-            for idx, result in enumerate(research['search_results'], 1):
+        search_results = research.get('search_results', [])
+        
+        if search_results:
+            for idx, result in enumerate(search_results, 1):
                 with st.expander(f"Source {idx}: {result.get('title', 'N/A')}"):
                     st.write(f"**URL:** {result.get('url', 'N/A')}")
                     st.write(f"**Snippet:** {result.get('snippet', 'No preview available')}")
+        else:
+            st.warning("⚠️ No search results were found for this query. This may be due to:")
+            st.markdown("""
+            - **Network connectivity issues** - External search APIs may be blocked or unavailable
+            - **Query limitations** - The search term may be too specific or contain special characters
+            - **API restrictions** - DuckDuckGo API may have rate limits or temporary issues
+            
+            **💡 Suggestions:**
+            - Try a different or broader search term
+            - Check your internet connection
+            - Wait a moment and try again
+            - The AI still generated a report based on its training data
+            """)
         
         # Export options
         st.divider()

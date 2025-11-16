@@ -42,13 +42,18 @@ class ResearchAgent:
             # Method 3: If OpenAI API key provided, use it for enhanced search
             if self.api_key:
                 enhanced_results = self._enhance_with_ai(query, results)
-                return enhanced_results[:max_results]
+                results = enhanced_results
+            
+            # If we still have no results, provide fallback
+            if not results:
+                print(f"No search results found for '{query}', using fallback resources")
+                return self._generate_fallback_results(query, max_results)
             
             return results[:max_results]
             
         except Exception as e:
             print(f"Search error: {e}")
-            # Return fallback results
+            # Return fallback results on exception
             return self._generate_fallback_results(query, max_results)
     
     def _search_duckduckgo(self, query: str, max_results: int) -> List[Dict]:
