@@ -19,11 +19,14 @@ class SessionService:
         self.current_session = None
         self.sessions = {}
         
-        # Create storage directory if it doesn't exist
-        os.makedirs(storage_path, exist_ok=True)
-        
-        # Load existing sessions
-        self._load_sessions()
+        try:
+            # Create storage directory if it doesn't exist
+            os.makedirs(storage_path, exist_ok=True)
+            # Load existing sessions
+            self._load_sessions()
+        except Exception as e:
+            # If file operations fail, continue with in-memory only
+            print(f"Warning: Could not access session storage: {e}")
     
     def create_session(self, user_id: str = "default") -> str:
         """Create a new session"""
@@ -92,11 +95,17 @@ class SessionService:
     
     def _save_session(self, session_id: str):
         """Save session to disk"""
-        session = self.sessions.get(session_id)
-        if session:
-            filepath = os.path.join(self.storage_path, f"{session_id}.json")
-            with open(filepath, 'w') as f:
-                json.dump(session, f, indent=2)
+        try:
+            session = self.sessions.get(session_id)
+            if session:
+                # Ensure directory exists
+                os.makedirs(self.storage_path, exist_ok=True)
+                filepath = os.path.join(self.storage_path, f"{session_id}.json")
+                with open(filepath, 'w') as f:
+                    json.dump(session, f, indent=2)
+        except Exception as e:
+            # Log error but continue (in-memory session still works)
+            print(f"Warning: Could not save session file: {e}")
     
     def _load_sessions(self):
         """Load all sessions from disk"""

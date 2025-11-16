@@ -18,29 +18,35 @@ class AgentLogger:
     
     def __init__(self, log_dir: str = "logs"):
         self.log_dir = log_dir
-        os.makedirs(log_dir, exist_ok=True)
         
         # Setup main logger
         self.logger = logging.getLogger("ResearchAssistant")
         self.logger.setLevel(logging.DEBUG)
         
-        # File handler
-        log_file = os.path.join(log_dir, f"agent_{datetime.now().strftime('%Y%m%d')}.log")
-        fh = logging.FileHandler(log_file)
-        fh.setLevel(logging.DEBUG)
+        try:
+            # Create log directory (may fail on read-only systems)
+            os.makedirs(log_dir, exist_ok=True)
+            
+            # File handler
+            log_file = os.path.join(log_dir, f"agent_{datetime.now().strftime('%Y%m%d')}.log")
+            fh = logging.FileHandler(log_file)
+            fh.setLevel(logging.DEBUG)
+            formatter = logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            )
+            fh.setFormatter(formatter)
+            self.logger.addHandler(fh)
+        except Exception as e:
+            # If file logging fails, continue with console only
+            print(f"Warning: Could not create log file: {e}")
         
-        # Console handler
+        # Console handler (always works)
         ch = logging.StreamHandler()
         ch.setLevel(logging.INFO)
-        
-        # Formatter
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
-        fh.setFormatter(formatter)
         ch.setFormatter(formatter)
-        
-        self.logger.addHandler(fh)
         self.logger.addHandler(ch)
     
     def log_agent_start(self, agent_name: str, task: str):
@@ -157,9 +163,15 @@ class AgentTracer:
     
     def _save_trace(self, trace: Dict):
         """Save trace to file"""
-        filename = os.path.join(self.trace_dir, f"{trace['trace_id']}.json")
-        with open(filename, 'w') as f:
-            json.dump(trace, f, indent=2)
+        try:
+            # Ensure directory exists
+            os.makedirs(self.trace_dir, exist_ok=True)
+            filename = os.path.join(self.trace_dir, f"{trace['trace_id']}.json")
+            with open(filename, 'w') as f:
+                json.dump(trace, f, indent=2)
+        except Exception as e:
+            # Log error but don't crash the app
+            print(f"Warning: Could not save trace file: {e}")
 
 
 class MetricsCollector:
