@@ -31,15 +31,13 @@ class ResearchAgent:
         results = []
         
         try:
-            # Method 1: Use DuckDuckGo HTML search (no API key needed)
+            # Method 1: Use DuckDuckGo search (fast with 3s timeout)
             ddg_results = self._search_duckduckgo(query, max_results)
             results.extend(ddg_results)
             
-            # Method 2: Search Wikipedia for additional context
-            wiki_results = self._search_wikipedia(query)
-            results.extend(wiki_results)
+            # Skip Wikipedia search for speed - fallback results include Wikipedia link
             
-            # Method 3: If OpenAI API key provided, use it for enhanced search
+            # Method 2: If OpenAI API key provided, use it for enhanced search
             if self.api_key:
                 enhanced_results = self._enhance_with_ai(query, results)
                 results = enhanced_results
@@ -62,7 +60,7 @@ class ResearchAgent:
         try:
             # Try the instant answer API first (more reliable)
             api_url = f"https://api.duckduckgo.com/?q={quote_plus(query)}&format=json&no_html=1&skip_disambig=1"
-            response = requests.get(api_url, headers=self.headers, timeout=10)
+            response = requests.get(api_url, headers=self.headers, timeout=3)
             
             if response.status_code == 200:
                 data = response.json()
@@ -89,7 +87,7 @@ class ResearchAgent:
             # If no results yet, try HTML search as backup
             if len(results) == 0:
                 url = f"https://html.duckduckgo.com/html/?q={quote_plus(query)}"
-                response = requests.get(url, headers=self.headers, timeout=10)
+                response = requests.get(url, headers=self.headers, timeout=3)
                 
                 if response.status_code == 200:
                     soup = BeautifulSoup(response.content, 'html.parser')
@@ -131,7 +129,7 @@ class ResearchAgent:
                 'format': 'json'
             }
             
-            response = requests.get(search_url, params=params, timeout=10)
+            response = requests.get(search_url, params=params, timeout=3)
             if response.status_code == 200:
                 data = response.json()
                 titles = data[1]
