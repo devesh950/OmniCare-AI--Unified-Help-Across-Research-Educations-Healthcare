@@ -44,3 +44,14 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+traces/
+memory_bank/
+
+# Generated/Duplicate folders
+AgentEvaluation/
+EducationTutorAgent/
+HealthcareNavigatorAgent/
+
+# Session data
+sessions/
