@@ -1,0 +1,50 @@
+{
+  "trace_id": "trace_1763273634365",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T11:43:54.365013",
+  "metadata": {
+    "topic": "python basics",
+    "type": "Academic",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 3.6613821983337402,
+      "status": "success",
+      "timestamp": "2025-11-16T11:43:58.029262"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.009868144989013672,
+      "status": "success",
+      "timestamp": "2025-11-16T11:43:58.052917"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.0021190643310546875,
+      "status": "success",
+      "timestamp": "2025-11-16T11:43:58.059658"
+    },
+    {
+      "agent": "AccessibilityAgent",
+      "action": "make_accessible",
+      "duration": 0.006990194320678711,
+      "status": "success",
+      "timestamp": "2025-11-16T11:43:58.071337"
+    },
+    {
+      "agent": "TextToSpeechAgent",
+      "action": "prepare_speech",
+      "duration": 0.026630163192749023,
+      "status": "success",
+      "timestamp": "2025-11-16T11:43:58.097967"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T11:43:58.122677",
+  "total_duration": 3.757664
+}

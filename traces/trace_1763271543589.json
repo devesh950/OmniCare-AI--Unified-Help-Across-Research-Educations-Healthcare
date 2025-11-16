@@ -1,0 +1,50 @@
+{
+  "trace_id": "trace_1763271543589",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T11:09:03.589244",
+  "metadata": {
+    "topic": "Agents intensive capstone projects",
+    "type": "Academic",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 3.221329927444458,
+      "status": "success",
+      "timestamp": "2025-11-16T11:09:06.815969"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.0,
+      "status": "success",
+      "timestamp": "2025-11-16T11:09:06.824685"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.0018298625946044922,
+      "status": "success",
+      "timestamp": "2025-11-16T11:09:06.834380"
+    },
+    {
+      "agent": "AccessibilityAgent",
+      "action": "make_accessible",
+      "duration": 0.010916709899902344,
+      "status": "success",
+      "timestamp": "2025-11-16T11:09:06.849245"
+    },
+    {
+      "agent": "TextToSpeechAgent",
+      "action": "prepare_speech",
+      "duration": 0.01007223129272461,
+      "status": "success",
+      "timestamp": "2025-11-16T11:09:06.866023"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T11:09:06.886325",
+  "total_duration": 3.297081
+}

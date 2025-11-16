@@ -1,0 +1,14 @@
+{
+  "trace_id": "trace_1763272349210",
+  "operation": "education_tutor",
+  "start_time": "2025-11-16T11:22:29.210697",
+  "metadata": {
+    "query": "python basics",
+    "subject": "Computer Science",
+    "difficulty": "College"
+  },
+  "spans": [],
+  "status": "success",
+  "end_time": "2025-11-16T11:22:29.225840",
+  "total_duration": 0.015143
+}

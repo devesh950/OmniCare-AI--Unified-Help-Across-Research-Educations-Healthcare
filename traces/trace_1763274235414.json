@@ -1,0 +1,50 @@
+{
+  "trace_id": "trace_1763274235414",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T11:53:55.414105",
+  "metadata": {
+    "topic": "python ",
+    "type": "General",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 3.1159920692443848,
+      "status": "success",
+      "timestamp": "2025-11-16T11:53:58.548858"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.0064525604248046875,
+      "status": "success",
+      "timestamp": "2025-11-16T11:53:58.567735"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.0036287307739257812,
+      "status": "success",
+      "timestamp": "2025-11-16T11:53:58.575206"
+    },
+    {
+      "agent": "AccessibilityAgent",
+      "action": "make_accessible",
+      "duration": 0.0038399696350097656,
+      "status": "success",
+      "timestamp": "2025-11-16T11:53:58.583107"
+    },
+    {
+      "agent": "TextToSpeechAgent",
+      "action": "prepare_speech",
+      "duration": 0.009162187576293945,
+      "status": "success",
+      "timestamp": "2025-11-16T11:53:58.595044"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T11:53:58.610406",
+  "total_duration": 3.196301
+}

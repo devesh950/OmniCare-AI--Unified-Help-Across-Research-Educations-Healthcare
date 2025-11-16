@@ -1,0 +1,14 @@
+{
+  "trace_id": "trace_1763274281717",
+  "operation": "education_tutor",
+  "start_time": "2025-11-16T11:54:41.717190",
+  "metadata": {
+    "query": "pythons",
+    "subject": "Programming",
+    "difficulty": "College"
+  },
+  "spans": [],
+  "status": "success",
+  "end_time": "2025-11-16T11:54:41.725960",
+  "total_duration": 0.00877
+}

@@ -1,0 +1,36 @@
+{
+  "trace_id": "trace_1763268785147",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T10:23:05.147660",
+  "metadata": {
+    "topic": "chat gpt",
+    "type": "News",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 2.179511308670044,
+      "status": "success",
+      "timestamp": "2025-11-16T10:23:07.330277"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.0005059242248535156,
+      "status": "success",
+      "timestamp": "2025-11-16T10:23:07.333142"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.001218557357788086,
+      "status": "success",
+      "timestamp": "2025-11-16T10:23:07.335368"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T10:23:07.339246",
+  "total_duration": 2.191586
+}

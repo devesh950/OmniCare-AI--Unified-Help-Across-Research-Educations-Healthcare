@@ -1,0 +1,50 @@
+{
+  "trace_id": "trace_1763270245826",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T10:47:25.826023",
+  "metadata": {
+    "topic": "chat gpt",
+    "type": "Academic",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 2.2016665935516357,
+      "status": "success",
+      "timestamp": "2025-11-16T10:47:28.034729"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.000997781753540039,
+      "status": "success",
+      "timestamp": "2025-11-16T10:47:28.038336"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.0,
+      "status": "success",
+      "timestamp": "2025-11-16T10:47:28.039545"
+    },
+    {
+      "agent": "AccessibilityAgent",
+      "action": "make_accessible",
+      "duration": 0.0010073184967041016,
+      "status": "success",
+      "timestamp": "2025-11-16T10:47:28.043995"
+    },
+    {
+      "agent": "TextToSpeechAgent",
+      "action": "prepare_speech",
+      "duration": 0.003034830093383789,
+      "status": "success",
+      "timestamp": "2025-11-16T10:47:28.048465"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T10:47:28.054837",
+  "total_duration": 2.228814
+}

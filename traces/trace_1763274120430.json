@@ -1,0 +1,50 @@
+{
+  "trace_id": "trace_1763274120430",
+  "operation": "research_operation",
+  "start_time": "2025-11-16T11:52:00.430608",
+  "metadata": {
+    "topic": "python ",
+    "type": "General",
+    "max_results": 5
+  },
+  "spans": [
+    {
+      "agent": "ResearchAgent",
+      "action": "search",
+      "duration": 3.1407830715179443,
+      "status": "success",
+      "timestamp": "2025-11-16T11:52:03.594718"
+    },
+    {
+      "agent": "SummarizerAgent",
+      "action": "summarize",
+      "duration": 0.005139350891113281,
+      "status": "success",
+      "timestamp": "2025-11-16T11:52:03.615685"
+    },
+    {
+      "agent": "ReportGenerator",
+      "action": "generate",
+      "duration": 0.002803325653076172,
+      "status": "success",
+      "timestamp": "2025-11-16T11:52:03.621819"
+    },
+    {
+      "agent": "AccessibilityAgent",
+      "action": "make_accessible",
+      "duration": 0.04213285446166992,
+      "status": "success",
+      "timestamp": "2025-11-16T11:52:03.667746"
+    },
+    {
+      "agent": "TextToSpeechAgent",
+      "action": "prepare_speech",
+      "duration": 0.03242659568786621,
+      "status": "success",
+      "timestamp": "2025-11-16T11:52:03.729009"
+    }
+  ],
+  "status": "success",
+  "end_time": "2025-11-16T11:52:03.763986",
+  "total_duration": 3.333378
+}
