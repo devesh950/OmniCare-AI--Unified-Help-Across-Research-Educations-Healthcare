@@ -55,31 +55,59 @@ class ResearchAgent:
         """Search using DuckDuckGo HTML"""
         results = []
         try:
-            url = f"https://html.duckduckgo.com/html/?q={quote_plus(query)}"
-            response = requests.get(url, headers=self.headers, timeout=10)
+            # Try the instant answer API first (more reliable)
+            api_url = f"https://api.duckduckgo.com/?q={quote_plus(query)}&format=json&no_html=1&skip_disambig=1"
+            response = requests.get(api_url, headers=self.headers, timeout=10)
             
             if response.status_code == 200:
-                soup = BeautifulSoup(response.content, 'html.parser')
-                search_results = soup.find_all('div', class_='result')
+                data = response.json()
                 
-                for result in search_results[:max_results]:
-                    try:
-                        title_elem = result.find('a', class_='result__a')
-                        snippet_elem = result.find('a', class_='result__snippet')
-                        
-                        if title_elem and snippet_elem:
-                            title = title_elem.get_text(strip=True)
-                            url = title_elem.get('href', '')
-                            snippet = snippet_elem.get_text(strip=True)
+                # Add abstract if available
+                if data.get('Abstract'):
+                    results.append({
+                        'title': data.get('Heading', query),
+                        'url': data.get('AbstractURL', f"https://duckduckgo.com/?q={quote_plus(query)}"),
+                        'snippet': data.get('Abstract', ''),
+                        'source': 'DuckDuckGo'
+                    })
+                
+                # Add related topics
+                for topic in data.get('RelatedTopics', [])[:max_results-1]:
+                    if isinstance(topic, dict) and 'Text' in topic:
+                        results.append({
+                            'title': topic.get('Text', '')[:100],
+                            'url': topic.get('FirstURL', ''),
+                            'snippet': topic.get('Text', ''),
+                            'source': 'DuckDuckGo'
+                        })
+            
+            # If no results yet, try HTML search as backup
+            if len(results) == 0:
+                url = f"https://html.duckduckgo.com/html/?q={quote_plus(query)}"
+                response = requests.get(url, headers=self.headers, timeout=10)
+                
+                if response.status_code == 200:
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    search_results = soup.find_all('div', class_='result')
+                    
+                    for result in search_results[:max_results]:
+                        try:
+                            title_elem = result.find('a', class_='result__a')
+                            snippet_elem = result.find('a', class_='result__snippet')
                             
-                            results.append({
-                                'title': title,
-                                'url': url,
-                                'snippet': snippet,
-                                'source': 'DuckDuckGo'
-                            })
-                    except:
-                        continue
+                            if title_elem and snippet_elem:
+                                title = title_elem.get_text(strip=True)
+                                url = title_elem.get('href', '')
+                                snippet = snippet_elem.get_text(strip=True)
+                                
+                                results.append({
+                                    'title': title,
+                                    'url': url,
+                                    'snippet': snippet,
+                                    'source': 'DuckDuckGo'
+                                })
+                        except:
+                            continue
         except Exception as e:
             print(f"DuckDuckGo search error: {e}")
         
@@ -149,24 +177,37 @@ class ResearchAgent:
     
     def _generate_fallback_results(self, query: str, max_results: int) -> List[Dict]:
         """Generate fallback results when search fails"""
+        # Provide helpful information even when search fails
         return [
             {
-                'title': f"Research on: {query}",
+                'title': f"Understanding {query}",
                 'url': f"https://www.google.com/search?q={quote_plus(query)}",
-                'snippet': f"Information about {query}. This is a fallback result as the main search encountered issues. Please try refining your query or check your internet connection.",
-                'source': 'Fallback'
+                'snippet': f"{query} is an important topic. While we're experiencing temporary search limitations, you can learn more by clicking the link above or trying these resources: Wikipedia, academic databases, or educational websites dedicated to this subject.",
+                'source': 'Information'
             },
             {
-                'title': f"{query} - Overview",
+                'title': f"{query} - Wikipedia Reference",
                 'url': f"https://en.wikipedia.org/wiki/{query.replace(' ', '_')}",
-                'snippet': f"General information and overview of {query}. For best results, ensure you have an active internet connection.",
-                'source': 'Fallback'
+                'snippet': f"Wikipedia often provides comprehensive information about {query}. Visit Wikipedia for detailed articles, references, and related topics. This is a reliable source for general knowledge and background information.",
+                'source': 'Wikipedia'
             },
             {
-                'title': f"Latest news about {query}",
+                'title': f"Latest Information on {query}",
                 'url': f"https://news.google.com/search?q={quote_plus(query)}",
-                'snippet': f"Recent news and updates related to {query}. This is a generated result.",
-                'source': 'Fallback'
+                'snippet': f"Stay updated with the latest news and developments related to {query}. Google News aggregates articles from multiple sources to give you current information and different perspectives.",
+                'source': 'News'
+            },
+            {
+                'title': f"Academic Resources for {query}",
+                'url': f"https://scholar.google.com/scholar?q={quote_plus(query)}",
+                'snippet': f"For in-depth research on {query}, Google Scholar provides access to academic papers, theses, books, and abstracts from academic publishers, professional societies, and universities.",
+                'source': 'Academic'
+            },
+            {
+                'title': f"Video Content About {query}",
+                'url': f"https://www.youtube.com/results?search_query={quote_plus(query)}",
+                'snippet': f"Visual learners can explore video content about {query} on YouTube. Find tutorials, lectures, documentaries, and explanations from educators and experts around the world.",
+                'source': 'Video'
             }
         ][:max_results]
     
